@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from conf import MONGO_URI
+from .conf import MONGO_URI
 
 
 def get_database():
