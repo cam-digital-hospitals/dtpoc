@@ -13,6 +13,7 @@ DEFAULT_GRID_SIZE = 0.5
 DEFAULT_RUNNER_SPEED = 1.2
 """Default runner speed in m/s."""
 
-
+BIM_FILE = env_get("BIM_FILE", "Histo.ifc")
+OUTPUT_FILE = env_get("OUTPUT_FILE", "output.json")
 MONGO_URI = env_get("MONGO_URI", "mongodb://localhost:27017")
 MONGO_TIMEOUT_MS = 5000

@@ -367,6 +367,7 @@ class ShapelyModel:
         return graph
 
 
+# path any two points
 class PathSegment(pyd.BaseModel):
     """Defines a path segment between two doors, with a travel duration."""
 
@@ -384,7 +385,7 @@ class PathSegment(pyd.BaseModel):
     required_assets: Sequence[str] = pyd.Field(
         title="Required assets",
         description="""The required transport assets to traverse the path segment.""",
-        examples=[["Lift"]],
+        examples=[["asset:lift", "inv:sample_tray", "hr:lab_assitant"]],
     )
 
 

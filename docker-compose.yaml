@@ -11,6 +11,8 @@ services:
     networks:
       - backend
 
+  # nodered:
+
   mailhog:
     platform: linux/amd64
     image: mailhog/mailhog:latest
