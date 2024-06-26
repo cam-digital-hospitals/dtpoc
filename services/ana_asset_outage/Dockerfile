@@ -1,8 +1,6 @@
 FROM python:3.11-slim
 
-WORKDIR /app
-
-RUN apt update && apt upgrade -y && apt install -y git
+RUN apt update && apt upgrade -y
 
 COPY requirements.in requirements.in
 
@@ -12,5 +10,4 @@ RUN pip install pip-tools && \
 
 COPY ./src/* /app/
 
-CMD PYTHONPATH=/app \
-    python main.py
+CMD python -m app

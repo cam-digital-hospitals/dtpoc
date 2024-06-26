@@ -1,4 +1,4 @@
-ifcopenshell
+git+https://github.com/IfcOpenShell/IfcOpenShell.git#egg=ifcopenshell
 networkx
 shapely
 natsort
