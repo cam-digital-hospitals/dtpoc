@@ -11,7 +11,15 @@ services:
     networks:
       - backend
 
-  # nodered:
+  nodered:
+    image: nodered/node-red:latest
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./config/nodered/:/data
+    environment:
+      - NODE_RED_ENABLE_PROJECTS=true
+      - NODE_RED_FLOW_FILE=flow.json
 
   mailhog:
     platform: linux/amd64
