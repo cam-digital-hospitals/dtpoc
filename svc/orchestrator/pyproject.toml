@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "orchestrator_operator"
+version = "0.0.1"
+description = "A Kubernetes operator built with Kopf"
+authors = [{ name = "Rohit Krishnan", email = "rohit.k.kesavan@gmail.com" }]
+license = { text = "MIT" }
+keywords = ["Kubernetes", "operator", "kopf"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: System :: Monitoring",
+]
+
+[project.urls]
+homepage = "https://github.com/cam-digital-hospitals/digital-twin"
+repository = "https://github.com/cam-digital-hospitals/digital-twin.git"
+
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src", "config"]
