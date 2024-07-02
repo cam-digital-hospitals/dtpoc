@@ -1,8 +1,8 @@
-git+https://github.com/IfcOpenShell/IfcOpenShell.git#egg=ifcopenshell
+ifcopenshell
 networkx
 shapely
 natsort
 numpy
 pandas
 pydantic
-pymongo[srv]
+pymongo

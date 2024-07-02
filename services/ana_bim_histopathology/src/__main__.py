@@ -35,5 +35,5 @@ if __name__ == "__main__":
             json.dump(graph_data, f)
     except Exception as e:
         with open(OUTPUT_FILE, "w") as f:
-            json.dump(e.__dict__(), f)
+            json.dump(e.__dict__, f)
             sys.exit(-1)

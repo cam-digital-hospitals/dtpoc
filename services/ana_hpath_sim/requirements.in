@@ -1,0 +1,15 @@
+# COMMON
+pandas
+numpy
+openpyxl
+pydantic
+
+# ANA
+fastapi
+uvicorn
+
+# SIM
+dacite
+salabim
+greenlet
+networkx

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchestrator-api
+  labels:
+    app: orchestrator-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orchestrator-api
+  template:
+    metadata:
+      labels:
+        app: orchestrator-api
+    spec:
+      serviceAccountName: orchestrator-sa
+      containers:
+        - name: api
+          image: {{ .Values.orchestrator.api.image }}:{{ .Values.orchestrator.api.version }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: HOST
+              value: "0.0.0.0"
+            - name: PORT
+              value: "8000"
+            - name: MONGO_HOST
+              value: mongodb.default.svc.cluster.local
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_USER
+              value: root
+            - name: MONGO_PASSWORD
+              value: password
+            - name: MONGO_TIMEOUT_MS
+              value: "5000"

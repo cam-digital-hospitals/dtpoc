@@ -34,8 +34,8 @@ clean: ## Cleanup
 
 ##@ Build
 build: ## Build image (tag: latest)
-	@docker build --tag ghcr.io/cam-digital-hospitals/dt-orchestrator-operator:latest .
+	@docker build --tag ghcr.io/cam-digital-hospitals/orchestrator-operator:latest .
 
 ##@ Release
 push_latest: ## Push latest images to ghcr
-	@docker push ghcr.io/cam-digital-hospitals/dt-orchestrator-operator:latest
+	@docker push ghcr.io/cam-digital-hospitals/orchestrator-operator:latest

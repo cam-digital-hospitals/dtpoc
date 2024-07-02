@@ -20,4 +20,4 @@ CMD PYTHONPATH=/app \
     --standalone \
     --liveness=http://0.0.0.0:8080/healthz \
     -A \
-    -m src.orchestrator_operator
+    -m orchestrator_operator.main

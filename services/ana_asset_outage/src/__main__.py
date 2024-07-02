@@ -1,7 +1,7 @@
-from .conf import PORT
+from .conf import HOST, PORT
 from .main import app
 
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app=app, port=PORT)
+    uvicorn.run(app=app, host=HOST, port=PORT)

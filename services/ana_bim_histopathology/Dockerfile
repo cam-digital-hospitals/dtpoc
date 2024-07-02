@@ -1,16 +1,20 @@
-FROM python:3.11-slim
+FROM --platform=linux/amd64 python:3.12-slim
+
+RUN apt-get update && \
+    apt-get upgrade --yes && \
+    apt-get install --yes gcc && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install pip-tools
 
 WORKDIR /app
 
-RUN apt update && apt upgrade -y && apt install -y git
-
-COPY requirements.in requirements.in
-
-RUN pip install pip-tools && \
-    pip-compile requirements.in && \
+# Copy the requirements file and compile it
+COPY requirements.in /app/
+RUN pip-compile requirements.in && \
     pip-sync
 
-COPY ./src/* /app/
+COPY src /app/
 
-CMD PYTHONPATH=/app \
-    python main.py
+WORKDIR /
+
+CMD python -m app

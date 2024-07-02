@@ -15,5 +15,9 @@ DEFAULT_RUNNER_SPEED = 1.2
 
 BIM_FILE = env_get("BIM_FILE", "Histo.ifc")
 OUTPUT_FILE = env_get("OUTPUT_FILE", "output.json")
-MONGO_URI = env_get("MONGO_URI", "mongodb://localhost:27017")
-MONGO_TIMEOUT_MS = 5000
+
+MONGO_HOST = env_get("MONGO_HOST", "localhost")
+MONGO_PORT = int(env_get("MONGO_PORT", "27017"))
+MONGO_USER = env_get("MONGO_USER", "root")
+MONGO_PASSWORD = env_get("MONGO_PASSWORD", "example")
+MONGO_TIMEOUT_MS = int(env_get("MONGO_TIMEOUT_MS", "5000"))

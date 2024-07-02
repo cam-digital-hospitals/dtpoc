@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: orchestrator-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: orchestrator-clusterrole
+subjects:
+  - kind: ServiceAccount
+    name: orchestrator-sa
+    namespace: {{ .Release.Namespace }}

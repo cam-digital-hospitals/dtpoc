@@ -30,4 +30,4 @@ package-dir = { "" = "src" }
 include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["src", "config"]
+where = ["src"]

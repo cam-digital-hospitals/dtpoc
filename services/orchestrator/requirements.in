@@ -1,2 +1,4 @@
 kopf
 kubernetes
+pymongo[srv]
+motor

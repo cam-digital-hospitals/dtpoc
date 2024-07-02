@@ -1,0 +1,11 @@
+apiVersion: eng.cam.ac.uk/v1alpha1
+kind: Analytics
+metadata:
+  name: ana-bim-histopathology
+spec:
+  image: ghcr.io/cam-digital-hospitals/ana-bim-histopathology:latest
+  jobType: ondemand
+  description: "Histopathology BIM module that computes runner times between points of interest"
+  env:
+    BIM_FILE: /input/Histo.ifc
+    OUTPUT_FILE: /output.json

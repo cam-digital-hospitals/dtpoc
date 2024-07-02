@@ -1,9 +1,11 @@
 import pandas as pd
 from fastapi import FastAPI
 
-from .conf import TIMEZONE
+from .conf import TIMEZONE, VERSION
 
-app = FastAPI()
+app = FastAPI(
+    root_path=f"/api/ana-asset-outage/{VERSION}",
+)
 
 
 class OutageList(list):
