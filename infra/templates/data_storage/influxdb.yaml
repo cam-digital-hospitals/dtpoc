@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mongodb-pv
+  name: influxdb-pv
 spec:
   capacity:
     storage: 10Gi
@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:
-    path: /data/mongodb_data/
+    path: /data/influxdb_data/
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -23,10 +23,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongodb-pvc
+  name: influxdb-pvc
   namespace: {{ .Release.Namespace }}
 spec:
-  volumeName: mongodb-pv
+  volumeName: influxdb-pv
   storageClassName: standard
   accessModes:
     - ReadWriteOnce
@@ -37,46 +37,54 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: influxdb
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: influxdb
   template:
     metadata:
       labels:
-        app: mongodb
+        app: influxdb
     spec:
       containers:
-        - name: mongodb
-          image: mongo:latest
+        - name: influxdb
+          image: influxdb:2.7-alpine
           ports:
-            - containerPort: 27017
+            - containerPort: 8086
           env:
-            # TODO: change this!
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: root
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: password
+          - name: DOCKER_INFLUXDB_INIT_MODE
+            value: setup
+          - name: DOCKER_INFLUXDB_INIT_USERNAME
+            value: root
+          - name: DOCKER_INFLUXDB_INIT_PASSWORD
+            value: password
+          - name: DOCKER_INFLUXDB_INIT_ORG
+            value: camdt
+          - name: DOCKER_INFLUXDB_INIT_BUCKET
+            value: default
+          - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+            value: super-secret-token
           volumeMounts:
-            - name: mongodb-data
-              mountPath: /data/db
+            - name: influxdb-data
+              mountPath: /var/lib/influxdb
       volumes:
-        - name: mongodb-data
+        - name: influxdb-data
           persistentVolumeClaim:
-            claimName: mongodb-pvc
+            claimName: influxdb-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: influxdb
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    app: mongodb
+    app: influxdb
   ports:
-    - protocol: TCP
-      port: 27017
-      targetPort: 27017
+    - port: 8086
+      targetPort: 8086
+      protocol: TCP
+      name: http

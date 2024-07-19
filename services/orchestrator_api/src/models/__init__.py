@@ -1,5 +1,5 @@
 import enum
-from typing import Any, Optional, Self
+from typing import Any, Optional, Self, Union
 
 import pydantic as pyd
 
@@ -35,6 +35,14 @@ class AnalyticsConfig(pyd.BaseModel):
       ondemand => kubernetes Job.
       scheduled => kubernetes CronJob.
     """
+    
+    reps: Optional[int] = pyd.Field(
+        default=None,
+        examples=[
+            3,
+        ],
+    )
+    """Number of job completions required"""
 
     schedule: Optional[str] = pyd.Field(
         default=None,
@@ -58,7 +66,7 @@ class AnalyticsConfig(pyd.BaseModel):
 class ServiceLaunchRequest(pyd.BaseModel):
     image: str = pyd.Field(
         examples=[
-            "ghcr.io/cam-digital-hospitals/ana-bim-histopathology",
+            "ghcr.io/cam-digital-hospitals/ana-hpath-sim"
         ],
     )
     """Docker image with the service logic"""
@@ -72,7 +80,7 @@ class ServiceLaunchRequest(pyd.BaseModel):
 
     description: str = pyd.Field(
         examples=[
-            "An analytics module that uses the Histopathology BIM file to calculate runner times",
+            "An analytics module that uses the Histopathology BIM runner times to simulate sample flow and reports KPIs",
         ],
     )
     """Description of what the service does"""
@@ -93,8 +101,8 @@ class ServiceLaunchRequest(pyd.BaseModel):
         default=None,
         examples=[
             {
-                "BIM_FILE": "value1",
-                "CONFIG2": "value2",
+                "INPUT_EXCEL_FILE": "/input/hpath_sim_input.xlsx",
+                "OUTPUT_FOLDER": "/output",
             }
         ],
     )
@@ -104,19 +112,23 @@ class ServiceLaunchRequest(pyd.BaseModel):
         default=None,
         examples=[
             {
-                "507f1f77bcf86cd799439011": "data.json",
+                "668481b1af010b6fdc495b6c": "hpath_sim_input.xlsx",
             }
         ],
     )
     """A map of ids to the input files stored in the database and the path to mount"""
 
-    ana: Optional[AnalyticsConfig] = pyd.Field(
+    ana: Union[AnalyticsConfig, None] = pyd.Field(
         title="Config for the analytics module type",
         default=None,
-        examples=[],
+        examples=[
+            {
+                'job_type': 'ondemand'
+            }
+        ],
     )
 
-    sim: Optional[SimulationConfig] = pyd.Field(
+    sim: Union[SimulationConfig, None] = pyd.Field(
         title="Config for the simulation module type",
         default=None,
         examples=[],

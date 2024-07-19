@@ -3,11 +3,11 @@ kind: Ingress
 metadata:
   name: orchestrator-api-ingress
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "512m"
 spec:
   ingressClassName: nginx
   rules:
-  - host: localhost
+  - host: jolly-crucial-stork.ngrok-free.app
     http:
       paths:
       - path: /api/orchestrator

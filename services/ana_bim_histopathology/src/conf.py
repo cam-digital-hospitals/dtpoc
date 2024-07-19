@@ -10,7 +10,7 @@ settings.set(settings.USE_WORLD_COORDS, True)
 DEFAULT_GRID_SIZE = 0.5
 """Default grid size in meters for pathfinding algorithm."""
 
-DEFAULT_RUNNER_SPEED = 1.2
+DEFAULT_RUNNER_SPEED = int(env_get("DEFAULT_RUNNER_SPEED", "1.2"))
 """Default runner speed in m/s."""
 
 BIM_FILE = env_get("BIM_FILE", "Histo.ifc")

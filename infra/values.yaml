@@ -1,10 +1,9 @@
 persistence:
-  datadir: /Users/cogniveon/src/camtes/dtpoc/data
   nodeAffinity:
     key: kubernetes.io/hostname
     operator: In
     values:
-      - "docker-desktop"
+      - "minikube"
 
 orchestrator:
   operator:
@@ -12,9 +11,6 @@ orchestrator:
     version: latest
   api:
     image: ghcr.io/cam-digital-hospitals/orchestrator-api
-    version: latest
-  ui:
-    image: nginx
     version: latest
 
 

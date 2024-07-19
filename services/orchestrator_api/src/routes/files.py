@@ -27,7 +27,6 @@ def compute_file_hash(file):
 async def list_files(
     skip: int = Query(0, ge=0),
     limit: int = Query(10, gt=0),
-    files_db: AsyncIOMotorGridFSBucket = Depends(get_gridfs_orchestrator_files),
     fs: AsyncIOMotorGridFSBucket = Depends(get_gridfs_orchestrator_files),
 ):
     try:

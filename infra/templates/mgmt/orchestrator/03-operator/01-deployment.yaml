@@ -39,10 +39,10 @@ spec:
             - name: MONGO_TIMEOUT_MS
               value: "5000"
 
-      #     volumeMounts:
-      #       - name: orchestrator-storage
-      #         mountPath: /data
-      # volumes:
-      #   - name: orchestrator-storage
-      #     persistentVolumeClaim:
-      #       claimName: orchestrator-pvc
+          volumeMounts:
+            - name: orchestrator-storage
+              mountPath: /data
+      volumes:
+        - name: orchestrator-storage
+          persistentVolumeClaim:
+            claimName: orchestrator-pvc

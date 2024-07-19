@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: orchestrator-ui-ingress
+  name: digital-hosp-frontend-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: localhost
+  - host: jolly-crucial-stork.ngrok-free.app
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: orchestrator-ui-svc
+            name: digital-hosp-frontend-svc
             port:
-              number: 80
+              number: 8000

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digital-hosp-frontend
+  labels:
+    app: digital-hosp-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: digital-hosp-frontend
+  template:
+    metadata:
+      labels:
+        app: digital-hosp-frontend
+    spec:
+      containers:
+        - name: ui
+          image: ghcr.io/cam-digital-hospitals/digital-hosp-frontend:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ORCHESTRATOR_URL
+              value: https://jolly-crucial-stork.ngrok-free.app/api/orchestrator/v1alpha1
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 30

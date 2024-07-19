@@ -30,6 +30,11 @@ spec:
                   minimum: 1
                   maximum: 65535
                   description: "Port to map external traffic (Optional: if analytics module has a server)"
+                reps:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  description: "Number of job run required to be completed (V1JobSpec.completions)"
                 schedule:
                   type: string
                   description: "Cron schedule expression for scheduled jobType"
@@ -46,20 +51,29 @@ spec:
                     jobType:
                       enum:
                         - persistent
+                  not:
+                    required:
+                      - reps
                 - properties:
                     jobType:
                       enum:
                         - scheduled
                   required:
+                    - reps
                     - schedule
                 - properties:
                     jobType:
                       enum:
                         - ondemand
+                  required:
+                    - reps
                   not:
                     required:
                       - port
                       - schedule
+            status:
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
       additionalPrinterColumns:
         - name: Type
           type: string
