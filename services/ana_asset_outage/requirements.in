@@ -1,6 +1,0 @@
-pydantic
-uvicorn
-fastapi
-pymongo
-pandas
-pytz

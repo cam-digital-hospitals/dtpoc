@@ -1,8 +1,0 @@
-ifcopenshell
-networkx
-shapely
-natsort
-numpy
-pandas
-pydantic
-pymongo
