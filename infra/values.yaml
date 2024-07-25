@@ -3,7 +3,7 @@ persistence:
     key: kubernetes.io/hostname
     operator: In
     values:
-      - "minikube"
+      - "docker-desktop"
 
 orchestrator:
   operator:

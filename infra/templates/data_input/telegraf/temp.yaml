@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: di-temp-sen-config
+  namespace: {{ .Release.Namespace }}
+data:
+  telegraf.conf: |
+    [global_tags]
+      dc = "eu-west-2"
+
+    [agent]
+      interval = "10s"
+      round_interval = true
+      metric_buffer_limit = 10000
+      collection_jitter = "0s"
+      flush_jitter = "0s"
+      precision = ""
+      debug = false
+      quiet = false
+      logfile = ""
+    
+    [[inputs.mqtt_consumer]]
+      servers = ["tcp://test.mosquitto.org:1883"]
+      topics = ["CamDT/DC1/IfM/#"]
+      data_format = "json_v2"
+      topic_tag = ""
+      qos = 1
+
+    [[inputs.mqtt_consumer.json_v2]]
+      measurement_name = "temperature_reading"
+      timestamp_path = "timestamp"
+      # Mon Jan 2 15:04:05 MST 2006
+      timestamp_format = "2006-01-02T15:04:05.000Z"
+      
+      [[inputs.mqtt_consumer.json_v2.field]]
+        path = "temp"
+        type = "float"
+      [[inputs.mqtt_consumer.json_v2.tag]]
+        path = "machine"
+        type = "string"
+    
+    [[outputs.file]]
+      files = ["stdout"]
+
+    [[outputs.influxdb_v2]]
+      urls = ["http://influxdb.default.svc.cluster.local:8086"]
+      token = "super-secret-token"
+      organization = "camdt"
+      bucket = "default"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: di-temp-sen
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: di-temp-sen
+  template:
+    metadata:
+      labels:
+        app: di-temp-sen
+    spec:
+      containers:
+      - name: di-temp-sen
+        image: telegraf:latest
+        volumeMounts:
+        - name: telegraf-config
+          mountPath: /etc/telegraf/telegraf.conf
+          subPath: telegraf.conf
+      volumes:
+      - name: telegraf-config
+        configMap:
+          name: di-temp-sen-config

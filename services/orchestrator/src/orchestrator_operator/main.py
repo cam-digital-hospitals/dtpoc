@@ -200,26 +200,6 @@ async def analytics_handler(
                             completions=reps,
                             template=k8s_client.V1PodTemplateSpec(
                                 spec=k8s_client.V1PodSpec(
-                                    # Define node affinity for amd64 and arm64 architectures
-                                    # Hack for making amd64 images work on MacOS
-                                    # (use Rossetta for amd64)
-                                    # affinity=k8s_client.V1Affinity(
-                                    #     node_affinity=k8s_client.V1NodeAffinity(
-                                    #         required_during_scheduling_ignored_during_execution=k8s_client.V1NodeSelector(
-                                    #             node_selector_terms=[
-                                    #                 k8s_client.V1NodeSelectorTerm(
-                                    #                     match_expressions=[
-                                    #                         k8s_client.V1NodeSelectorRequirement(
-                                    #                             key="kubernetes.io/arch",
-                                    #                             operator="In",
-                                    #                             values=["amd64", "arm64"],
-                                    #                         )
-                                    #                     ]
-                                    #                 )
-                                    #             ]
-                                    #         )
-                                    #     )
-                                    # ),
                                     init_containers=[
                                         # Init container that prepares input files for the analytics module
                                         # Improvement: a dedicated service the can handle failures and
@@ -245,23 +225,6 @@ async def analytics_handler(
                                     ],
                                     containers=[
                                         container_spec,
-                                        # k8s_client.V1Container(
-                                        #     name="output-data-access",
-                                        #     image="alpine",
-                                        #     command=["sh", "-c",
-                                        #     """
-                                        #     while [ ! -f /orchestrator-done ]; do
-                                        #         echo "Waiting for orchestrator to read output files..."
-                                        #         sleep 5;
-                                        #     done;
-                                        #     echo "Orchestrator read output files!"
-                                        #     """,],
-                                        #     volume_mounts=[
-                                        #         k8s_client.V1VolumeMount(
-                                        #             name="output-data", mount_path="/output"
-                                        #         ),
-                                        #     ],
-                                        # ),
                                     ],
                                     restart_policy="Never",
                                     volumes=[
@@ -366,49 +329,3 @@ async def analytics_handler(
 
     else:
         raise kopf.PermanentError("Unsupported job_type")
-
-
-# def create_cronjob(
-#     name, namespace, image, schedule, env_vars, owner_reference, batch_api
-# ):
-#     env_list = [
-#         k8s_client.V1EnvVar(name=key, value=value) for key, value in env_vars.items()
-#     ]
-
-#     container = k8s_client.V1Container(name=name, image=image, env=env_list)
-
-#     spec = k8s_client.V1PodSpec(containers=[container], restart_policy="OnFailure")
-#     template = k8s_client.V1PodTemplateSpec(
-#         metadata=k8s_client.V1ObjectMeta(labels={"app": name}), spec=spec
-#     )
-
-#     cronjob_spec = k8s_client.V1CronJobSpec(
-#         schedule=schedule,
-#         job_template=k8s_client.V1JobTemplateSpec(
-#             spec=k8s_client.V1JobSpec(template=template)
-#         ),
-#     )
-
-#     cronjob = k8s_client.V1CronJob(
-#         api_version="batch/v1",
-#         kind="CronJob",
-#         metadata=k8s_client.V1ObjectMeta(
-#             name=name, namespace=namespace, owner_references=[owner_reference]
-#         ),
-#         spec=cronjob_spec,
-#     )
-
-#     batch_api.create_namespaced_cron_job(namespace=namespace, body=cronjob)
-
-# if job_type == "persistent":
-#     create_deployment(
-#         name, namespace, image, port, env_vars, owner_reference, k8s_api
-#     )
-#     create_service(name, namespace, port, owner_reference, core_api)
-#     create_ingress(name, namespace, port, owner_reference, networking_api)
-# elif job_type == "scheduled":
-#     create_cronjob(
-#         name, namespace, image, schedule, env_vars, owner_reference, batch_api
-#     )
-# else:
-#     await create_job(name, namespace, image, env_vars, owner_reference, batch_api)
