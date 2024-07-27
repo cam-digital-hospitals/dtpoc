@@ -202,7 +202,8 @@ helm upgrade --install -n default dtpoc ./infra
 ```
 
 Note: This will break for PV/PVC modification as they are immutable.
-You can delete pods using `kubectl delete pod -l app=app-name`
+
+You can delete pods using `kubectl delete pod -l app=app-name` (useful for deployments that do not restart on config change)
 
 ### Cleanup
 
