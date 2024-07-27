@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:
-    path: /data/mongodb_data/
+    path: {{ .Values.persistence.dataRoot }}/mongodb_data/
   nodeAffinity:
     required:
       nodeSelectorTerms:

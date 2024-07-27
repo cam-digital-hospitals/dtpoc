@@ -1,12 +1,9 @@
-import json
 import logging
 import os
-import shutil
-import tempfile
 
 from bson import ObjectId
 import kopf
-from kubernetes import client as k8s_client, stream as k8s_stream
+from kubernetes import client as k8s_client
 from kubernetes.client import ApiException
 from motor.core import AgnosticCollection
 import requests

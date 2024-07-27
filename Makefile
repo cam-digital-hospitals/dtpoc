@@ -17,14 +17,13 @@ help: ## Display this help.
 
 .PHONY: install
 install: ## Install helm chart into the default k8s cluster
-	@helm upgrade --install dt ./infra
+	@helm upgrade --install dtpoc ./infra
 
 
 .PHONY: uninstall
 uninstall: ## Uninstall helm chart
-	@helm uninstall dt
+	@helm uninstall dtpoc
 
 
-##@ Dev
-.PHONY: traefik nodered mongo-express
+.PHONY: help install uninstall
 

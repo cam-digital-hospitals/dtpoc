@@ -1,0 +1,14 @@
+apiVersion: eng.cam.ac.uk/v1alpha1
+kind: Analytics
+metadata:
+  name: 669a52d1364a1b751c550d56
+spec:
+  image: ghcr.io/cam-digital-hospitals/digital-hosp-des:latest
+  description: "An analytics module that uses the Histopathology BIM runner times to simulate sample flow and reports KPIs"
+  jobType: ondemand
+  reps: 2
+  env:
+    INPUT_EXCEL_FILE: /input/input.xlsx
+    OUTPUT_FOLDER: /output
+    SIM_HOURS: "1176"
+    NUM_REPS: "2"

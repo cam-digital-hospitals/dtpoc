@@ -1,4 +1,5 @@
 persistence:
+  dataRoot: data/
   nodeAffinity:
     key: kubernetes.io/hostname
     operator: In

@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:
-    path: /data/orchestrator_data/
+    path: {{ .Values.persistence.dataRoot }}/orchestrator_data/
   nodeAffinity:
     required:
       nodeSelectorTerms:
