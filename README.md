@@ -28,38 +28,7 @@ The Orchestrator is a [Kubernetes operator](https://kubernetes.io/docs/concepts/
 
 Here's how to set up a sample Analytics job in your Kubernetes cluster:
 
-1. **Create a Configuration File**
-
-   Create a file named `ana-digital-hosp-des.yaml` and paste the following content into it:
-
-   ```yaml
-   apiVersion: eng.cam.ac.uk/v1alpha1
-   kind: Analytics
-   metadata:
-     name: 669a52d1364a1b751c550d56
-   spec:
-     image: ghcr.io/cam-digital-hospitals/digital-hosp-des:latest
-     description: "An analytics module that uses the Histopathology BIM runner times to simulate sample flow and reports KPIs"
-     jobType: ondemand
-     reps: 2
-     env:
-       INPUT_EXCEL_FILE: /input/input.xlsx
-       OUTPUT_FOLDER: /output
-       SIM_HOURS: "1176"
-       NUM_REPS: "2"
-   ```
-
-2. **Apply the Configuration**
-
-   Open your terminal and run the following command to apply the configuration:
-
-   ```bash
-   kubectl apply -f ana-digital-hosp-des.yaml
-   ```
-
-   This command will set up the Analytics resource in your cluster, which will make the operator's main program (`main.py -> analytics_handler` function) create the necessary Kubernetes resources (like Pod/Job/CronJob) based on the `jobType`.
-
-3. **Expected Service Object**
+1. **Expected Service Object**
 
     The operator expects a service with the same ID as the analytics job name in the MongoDB services collection. Here is an example of what that service object looks like:
 
@@ -81,6 +50,37 @@ Here's how to set up a sample Analytics job in your Kubernetes cluster:
         }
     }
     ```
+
+2. **Create a Configuration File**
+
+   Create a file named `ana-digital-hosp-des.yaml` and paste the following content into it:
+
+   ```yaml
+   apiVersion: eng.cam.ac.uk/v1alpha1
+   kind: Analytics
+   metadata:
+     name: 669a52d1364a1b751c550d56
+   spec:
+     image: ghcr.io/cam-digital-hospitals/digital-hosp-des:latest
+     description: "An analytics module that uses the Histopathology BIM runner times to simulate sample flow and reports KPIs"
+     jobType: ondemand
+     reps: 2
+     env:
+       INPUT_EXCEL_FILE: /input/input.xlsx
+       OUTPUT_FOLDER: /output
+       SIM_HOURS: "1176"
+       NUM_REPS: "2"
+   ```
+
+3. **Apply the Configuration**
+
+   Open your terminal and run the following command to apply the configuration:
+
+   ```bash
+   kubectl apply -f ana-digital-hosp-des.yaml
+   ```
+
+   This command will set up the Analytics resource in your cluster, which will make the operator's main program (`main.py -> analytics_handler` function) create the necessary Kubernetes resources (like Pod/Job/CronJob) based on the `jobType`.
 
 4. **Monitor the status of the job**:
 
